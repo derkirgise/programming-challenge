@@ -16,7 +16,8 @@ public class CsvDataParserTests {
     // the application should be able to handle (there could be many more...)
 
     private final List<String> correctInputStandard = Arrays.asList("Day,MxT,MnT", "1,88,59", "2,79,63");
-    private final List<String> correctInputEmptyValue = Arrays.asList("Day,MxT,MnT", "1,88,", "2,79,63");
+    private final List<String> correctInputEmptyValue = Arrays.asList("Day,MxT,MnT", ",,", "2,79,63");
+    private final List<String> incorrectInputEmptyHeaderValue= Arrays.asList("Day,,MxT", "1,88,59", "2,79,63");
     private final List<String> incorrectInputRepeatedHeaderValue= Arrays.asList("Day,MxT,MxT", "1,88,59", "2,79,63");
     private final List<String> incorrectInputMissingValues = Arrays.asList("Day,MxT,MnT", "1,88", "2,79,63");
     private final List<String> incorrectInputTooManyValues = Arrays.asList("Day,MxT,MnT", "1,88,59,18", "2,79,63");
@@ -40,8 +41,22 @@ public class CsvDataParserTests {
 
         assertFalse(data.isEmpty());
         assertEquals(2, data.size());
+
+        assertEquals("", data.get(0).get("Day"));
+        assertEquals("2", data.get(1).get("Day"));
+
         assertEquals("", data.get(0).get("MxT"));
-        assertEquals("63", data.get(1).get("MxT"));
+        assertEquals("79", data.get(1).get("MxT"));
+
+        assertEquals("", data.get(0).get("MnT"));
+        assertEquals("63", data.get(1).get("MnT"));
+    }
+
+    @Test
+    public void testParseEmptyHeaderValue_Failure() {
+        CsvDataParser csvDataParser = new CsvDataParser();
+
+        assertThrowsExactly(IllegalArgumentException.class, () -> csvDataParser.parse(incorrectInputEmptyHeaderValue));
     }
 
     @Test
