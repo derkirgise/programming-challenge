@@ -1,5 +1,7 @@
 package de.exxcellent.challenge.DataReader;
 
-public interface IDataReader <TOutput> {
-    public TOutput readAllLines(String source);
+import java.io.IOException;
+
+public interface IDataReader <TInput, TOutput> {
+    public TOutput readAllLines(TInput source) throws IOException;
 }
