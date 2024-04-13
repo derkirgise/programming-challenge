@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import static de.exxcellent.challenge.enums.FootballHeader.*;
 import static de.exxcellent.challenge.enums.WeatherHeader.*;
 
 /**
@@ -49,7 +50,8 @@ public final class App {
                     break;
                 }
                 case "--football": {
-                    String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
+                    Map<String, String> result = config.getDataProcessor().findSmallestSpread(parsedData, GOALS.getHeader(), GOALS_ALLOWED.getHeader());
+                    String teamWithSmallestGoalSpread = result.get(TEAM.getHeader());
                     System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
                     break;
                 }
