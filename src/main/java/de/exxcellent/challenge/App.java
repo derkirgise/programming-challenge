@@ -1,5 +1,13 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.config.DataConfiguration;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import static de.exxcellent.challenge.enums.WeatherHeader.*;
+
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
  * design. Read: create your own classes and packages as appropriate.
@@ -13,13 +21,46 @@ public final class App {
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the domain and the path to your data, e.g. --weather weather.csv");
 
-        // Your preparation code …
+        args = scanner.nextLine().trim().split("\\s+");
+        scanner.close();
 
-        String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
-        System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
+        if (args.length != 2) {
+            System.out.println("Invalid arguments. Use --weather or --football and the file you want to read.");
+            return;
+        }
 
-        String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
-        System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
+        try {
+            String domain = args[0];
+            String source = args[1];
+
+            DataConfiguration config = new DataConfiguration(args);
+
+            List<String> rawData = config.getDataReader().readAllLines(source);
+            List<Map<String, String>> parsedData = config.getDataParser().parse(rawData);
+
+            switch (domain) {
+                case "--weather": {
+                    Map<String, String> result = config.getDataProcessor().findSmallestSpread(parsedData, MXT.getHeader(), MNT.getHeader());
+                    String dayWithSmallestTempSpread = result.get(DAY.getHeader());
+                    System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
+                    break;
+                }
+                case "--football": {
+                    String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
+                    System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
+                    break;
+                }
+                default: {
+                    System.out.println("Can only handle weather or football data so far.");
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("An error occured: " + e.getMessage());
+        }
     }
 }

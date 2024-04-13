@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class CsvListToMapParser implements IDataParser <List<String>, List<Map<String, String>>> {
+public class CsvParser implements IDataParser {
     @Override
     public List<Map<String, String>> parse(List<String> input) {
         // input list needs to contain at least two rows (header and values)

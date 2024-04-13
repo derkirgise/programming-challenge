@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class NumericMapProcessor implements IDataProcessor <List<Map<String, String>>, Map<String, String>, String> {
+public class NumericProcessor implements IDataProcessor {
     @Override
     public Map<String, String> findSmallestSpread(List<Map<String, String>> input, String comparatorOne, String comparatorTwo) {
         if (Objects.equals(comparatorOne, comparatorTwo)) throw new IllegalArgumentException("Cannot compare same headers.");
