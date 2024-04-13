@@ -1,5 +1,8 @@
 package de.exxcellent.challenge.DataProcessor;
 
-public interface IDataProcessor <TInput, TOutput, TBase> {
-    public TOutput findSmallestSpread(TInput input, TBase comparatorOne, TBase comparatorTwo);
+import java.util.List;
+import java.util.Map;
+
+public interface IDataProcessor {
+    public Map<String, String> findSmallestSpread(List<Map<String, String >> input, String comparatorOne, String comparatorTwo);
 }

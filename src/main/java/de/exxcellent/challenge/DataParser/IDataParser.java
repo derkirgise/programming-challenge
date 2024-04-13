@@ -1,5 +1,8 @@
 package de.exxcellent.challenge.DataParser;
 
-public interface IDataParser <TInput, TOutput> {
-    public TOutput parse(TInput input);
+import java.util.List;
+import java.util.Map;
+
+public interface IDataParser {
+    public List<Map<String, String>> parse(List<String> input);
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 import static de.exxcellent.challenge.enums.WeatherHeader.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class NumericMapProcessorTests {
+public class NumericProcessorTests {
 
     private final Map<String, String> correctMapOne = new HashMap<>() {{
         put(DAY.getHeader(), "1");
@@ -39,8 +39,8 @@ public class NumericMapProcessorTests {
     public void testFindSmallestSpread_Success() {
         List<Map<String, String>> correctParsedCsvData = List.of(correctMapOne, correctMapTwo);
 
-        NumericMapProcessor numericMapProcessor = new NumericMapProcessor();
-        Map<String, String> result = numericMapProcessor.findSmallestSpread(correctParsedCsvData, MXT.getHeader(), MNT.getHeader());
+        NumericProcessor numericProcessor = new NumericProcessor();
+        Map<String, String> result = numericProcessor.findSmallestSpread(correctParsedCsvData, MXT.getHeader(), MNT.getHeader());
 
         assertEquals(correctMapTwo, result);
     }
@@ -50,8 +50,8 @@ public class NumericMapProcessorTests {
     public void testFindSmallestSpreadWithMissingValue_Success() {
         List<Map<String, String>> incorrectDataMissingValue = List.of(correctMapOne, incorrectMapWithEmptyField);
 
-        NumericMapProcessor numericMapProcessor = new NumericMapProcessor();
-        Map<String, String> result = numericMapProcessor.findSmallestSpread(incorrectDataMissingValue, MXT.getHeader(), MNT.getHeader());
+        NumericProcessor numericProcessor = new NumericProcessor();
+        Map<String, String> result = numericProcessor.findSmallestSpread(incorrectDataMissingValue, MXT.getHeader(), MNT.getHeader());
 
         assertEquals(correctMapOne, result);
     }
@@ -60,29 +60,29 @@ public class NumericMapProcessorTests {
     public void testFindSmallestSpreadWithMissingValue_Failure() {
         List<Map<String, String>> incorrectDataMissingValue = List.of(incorrectMapWithEmptyField);
 
-        NumericMapProcessor numericMapProcessor = new NumericMapProcessor();
+        NumericProcessor numericProcessor = new NumericProcessor();
 
         assertThrows(IllegalArgumentException.class,
-                () -> numericMapProcessor.findSmallestSpread(incorrectDataMissingValue, MXT.getHeader(), MNT.getHeader()));
+                () -> numericProcessor.findSmallestSpread(incorrectDataMissingValue, MXT.getHeader(), MNT.getHeader()));
     }
 
     @Test
     public void testFindSmallestSpreadWithSameComparator_Failure() {
         List<Map<String, String>> correctParsedCsvData = List.of(correctMapOne, correctMapTwo);
 
-        NumericMapProcessor numericMapProcessor = new NumericMapProcessor();
+        NumericProcessor numericProcessor = new NumericProcessor();
 
         assertThrows(IllegalArgumentException.class,
-                () -> numericMapProcessor.findSmallestSpread(correctParsedCsvData, MXT.getHeader(), MXT.getHeader()));
+                () -> numericProcessor.findSmallestSpread(correctParsedCsvData, MXT.getHeader(), MXT.getHeader()));
     }
 
     @Test
     public void testFindSmallestSpreadWithNonNumericField_Failure() {
         List<Map<String, String>> incorrectDataWithNonNumericData = List.of(correctMapOne, incorrectMapWithNonNumericField);
 
-        NumericMapProcessor numericMapProcessor = new NumericMapProcessor();
+        NumericProcessor numericProcessor = new NumericProcessor();
 
         assertThrows(IllegalArgumentException.class,
-                () -> numericMapProcessor.findSmallestSpread(incorrectDataWithNonNumericData, MXT.getHeader(), MNT.getHeader()));
+                () -> numericProcessor.findSmallestSpread(incorrectDataWithNonNumericData, MXT.getHeader(), MNT.getHeader()));
     }
 }
