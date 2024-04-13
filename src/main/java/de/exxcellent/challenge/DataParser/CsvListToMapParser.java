@@ -4,10 +4,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class CsvDataParser implements IDataParser <List<String>, List<Map<String, String>>> {
+public class CsvListToMapParser implements IDataParser <List<String>, List<Map<String, String>>> {
     @Override
     public List<Map<String, String>> parse(List<String> input) {
-        // input list needs to contain at least two row (header and values)
+        // input list needs to contain at least two rows (header and values)
         if (input == null || input.isEmpty() || input.size() == 1)
             throw new IllegalArgumentException("Parsing error: Input list does not contain any entries.");
 

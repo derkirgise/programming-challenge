@@ -1,17 +1,15 @@
 package de.exxcellent.challenge.DataProcessor;
 
-import de.exxcellent.challenge.enums.WeatherHeader;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class NumericDataProcessor implements IDataProcessor <List<Map<String, String>>, Map<String, String>, String> {
+public class NumericMapProcessor implements IDataProcessor <List<Map<String, String>>, Map<String, String>, String> {
     @Override
-    public Map<String, String> findSmallestDifference(List<Map<String, String>> input, String comparatorOne, String comparatorTwo) {
+    public Map<String, String> findSmallestSpread(List<Map<String, String>> input, String comparatorOne, String comparatorTwo) {
         if (Objects.equals(comparatorOne, comparatorTwo)) throw new IllegalArgumentException("Cannot compare same headers.");
 
-        double smallestDifference = Double.MAX_VALUE;
+        double smallestSpread = Double.MAX_VALUE;
         Map<String, String> result = null;
 
         for (Map<String, String> row : input) {
@@ -23,17 +21,18 @@ public class NumericDataProcessor implements IDataProcessor <List<Map<String, St
                     double valueOne = Double.parseDouble(valueOneString);
                     double valueTwo = Double.parseDouble(valueTwoString);
 
-                    double difference = Math.abs(valueOne - valueTwo);
+                    double spread = Math.abs(valueOne - valueTwo);
 
-                    if (difference < smallestDifference) {
-                        smallestDifference = difference;
+                    if (spread < smallestSpread) {
+                        smallestSpread = spread;
                         result = row;
                     }
                 } catch (NumberFormatException e) {
                     throw new IllegalArgumentException("Non-Numeric value cannot be processed.", e);
                 }
-            } else throw new IllegalArgumentException("Empty value cannot be processed.");
+            }
         }
-        return result;
+        if (result != null) return result;
+        throw new IllegalArgumentException("Input did not contain processable fields.");
     }
 }

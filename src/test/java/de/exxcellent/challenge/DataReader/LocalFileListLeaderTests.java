@@ -3,7 +3,6 @@ package de.exxcellent.challenge.DataReader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,31 +14,31 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LocalFileDataReaderTests {
+public class LocalFileListLeaderTests {
     private static Path filledFilePath;
     private static Path emptyFilePath;
 
     @BeforeAll
     public static void setUpClass() throws URISyntaxException {
-        URL filledFileUrl = LocalFileDataReaderTests.class.getClassLoader().getResource("test.csv");
+        URL filledFileUrl = LocalFileListLeaderTests.class.getClassLoader().getResource("test.csv");
         assertNotNull(filledFileUrl, "Test CSV file not found");
         filledFilePath = Paths.get(filledFileUrl.toURI());
 
-        URL emptyFileUrl = LocalFileDataReaderTests.class.getClassLoader().getResource("test_empty.csv");
+        URL emptyFileUrl = LocalFileListLeaderTests.class.getClassLoader().getResource("test_empty.csv");
         assertNotNull(emptyFileUrl, "Empty test CSV file not found");
         emptyFilePath = Paths.get(emptyFileUrl.toURI());
     }
 
     @BeforeAll
     public static void setUp() throws URISyntaxException {
-        filledFilePath = Paths.get(Objects.requireNonNull(LocalFileDataReaderTests.class.getClassLoader().getResource("test.csv")).toURI());
-        emptyFilePath = Paths.get(Objects.requireNonNull(LocalFileDataReaderTests.class.getClassLoader().getResource("test_empty.csv")).toURI());
+        filledFilePath = Paths.get(Objects.requireNonNull(LocalFileListLeaderTests.class.getClassLoader().getResource("test.csv")).toURI());
+        emptyFilePath = Paths.get(Objects.requireNonNull(LocalFileListLeaderTests.class.getClassLoader().getResource("test_empty.csv")).toURI());
     }
 
     @Test
     public void testReadDataFromExistingFile_Success() throws IOException {
 
-        LocalFileDataReader dataReader = new LocalFileDataReader();
+        LocalFileListLeader dataReader = new LocalFileListLeader();
         List<String> data = dataReader.readAllLines(filledFilePath);
 
         assertFalse(data.isEmpty());
@@ -48,7 +47,7 @@ public class LocalFileDataReaderTests {
 
     @Test
     public void testReadDataFromEmptyFile_Success() throws IOException {
-        LocalFileDataReader dataReader = new LocalFileDataReader();
+        LocalFileListLeader dataReader = new LocalFileListLeader();
         List<String> data = dataReader.readAllLines(emptyFilePath);
 
         assertTrue(data.isEmpty());
@@ -57,7 +56,7 @@ public class LocalFileDataReaderTests {
     @Test
     public void testReadDataFromNonExistingFile_Failure() {
         Path nonExistingFilePath = Paths.get("idontexist.csv");
-        LocalFileDataReader dataReader = new LocalFileDataReader();
+        LocalFileListLeader dataReader = new LocalFileListLeader();
 
         assertThrows(NoSuchFileException.class, () -> dataReader.readAllLines(nonExistingFilePath));
     }

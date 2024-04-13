@@ -2,15 +2,13 @@ package de.exxcellent.challenge.DataParser;
 
 import org.junit.jupiter.api.Test;
 
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CsvDataParserTests {
+public class CsvListToMapParserTests {
 
     //* Since the CSV definition is rather loose, these different inputs represent the basic types of input
     // the application should be able to handle (there could be many more...)
@@ -25,8 +23,8 @@ public class CsvDataParserTests {
 
     @Test
     public void testParseCorrectData_Success() {
-        CsvDataParser csvDataParser = new CsvDataParser();
-        List<Map<String, String>> data = csvDataParser.parse(correctInputStandard);
+        CsvListToMapParser csvListToMapParser = new CsvListToMapParser();
+        List<Map<String, String>> data = csvListToMapParser.parse(correctInputStandard);
 
         assertFalse(data.isEmpty());
         assertEquals(2, data.size());
@@ -36,8 +34,8 @@ public class CsvDataParserTests {
 
     @Test
     public void testParseEmptyValue_Success() {
-        CsvDataParser csvDataParser = new CsvDataParser();
-        List<Map<String, String>> data = csvDataParser.parse(correctInputEmptyValue);
+        CsvListToMapParser csvListToMapParser = new CsvListToMapParser();
+        List<Map<String, String>> data = csvListToMapParser.parse(correctInputEmptyValue);
 
         assertFalse(data.isEmpty());
         assertEquals(2, data.size());
@@ -54,36 +52,36 @@ public class CsvDataParserTests {
 
     @Test
     public void testParseEmptyHeaderValue_Failure() {
-        CsvDataParser csvDataParser = new CsvDataParser();
+        CsvListToMapParser csvListToMapParser = new CsvListToMapParser();
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> csvDataParser.parse(incorrectInputEmptyHeaderValue));
+        assertThrowsExactly(IllegalArgumentException.class, () -> csvListToMapParser.parse(incorrectInputEmptyHeaderValue));
     }
 
     @Test
     public void testParseRepeatedHeader_Failure() {
-        CsvDataParser csvDataParser = new CsvDataParser();
+        CsvListToMapParser csvListToMapParser = new CsvListToMapParser();
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> csvDataParser.parse(incorrectInputRepeatedHeaderValue));
+        assertThrowsExactly(IllegalArgumentException.class, () -> csvListToMapParser.parse(incorrectInputRepeatedHeaderValue));
     }
 
     @Test
     public void testParseMissingValue_Failure() {
-        CsvDataParser csvDataParser = new CsvDataParser();
+        CsvListToMapParser csvListToMapParser = new CsvListToMapParser();
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> csvDataParser.parse(incorrectInputMissingValues));
+        assertThrowsExactly(IllegalArgumentException.class, () -> csvListToMapParser.parse(incorrectInputMissingValues));
     }
 
     @Test
     public void testParseTooManyValues_Failure() {
-        CsvDataParser csvDataParser = new CsvDataParser();
+        CsvListToMapParser csvListToMapParser = new CsvListToMapParser();
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> csvDataParser.parse(incorrectInputTooManyValues));
+        assertThrowsExactly(IllegalArgumentException.class, () -> csvListToMapParser.parse(incorrectInputTooManyValues));
     }
 
     @Test
     public void testParseHeaderOnly_Failure() {
-        CsvDataParser csvDataParser = new CsvDataParser();
+        CsvListToMapParser csvListToMapParser = new CsvListToMapParser();
 
-        assertThrowsExactly(IllegalArgumentException.class, () -> csvDataParser.parse(incorrectInputHeaderOnly));
+        assertThrowsExactly(IllegalArgumentException.class, () -> csvListToMapParser.parse(incorrectInputHeaderOnly));
     }
 }
