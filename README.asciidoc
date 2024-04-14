@@ -146,6 +146,9 @@ Then to run the main class _de.exxcellent.challenge.App_::
 To remove the compilation output::
     `mvn clean`
 
+To run the app with arguments::
+    `mvn exec:java "-Dexec.mainClass=de.exxcellent.challenge.App" "-Dexec.args=--weather 'weather.csv'"`
+
 Or use your IDE functionality::
     to run & debug you program.
 

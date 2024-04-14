@@ -4,7 +4,6 @@ import de.exxcellent.challenge.config.DataConfiguration;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import static de.exxcellent.challenge.enums.FootballHeader.*;
 import static de.exxcellent.challenge.enums.WeatherHeader.*;
@@ -22,12 +21,6 @@ public final class App {
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the domain and the path to your data, e.g. --weather weather.csv");
-
-        args = scanner.nextLine().trim().split("\\s+");
-        scanner.close();
-
         if (args.length != 2) {
             System.out.println("Invalid arguments. Use --weather or --football and the file you want to read.");
             return;
